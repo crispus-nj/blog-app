@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark ">
     <div class="container">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="{{url_for('home')}}">
             <img src="{{url_for('static', filename='images/default.png')}}" alt="Logo" style="width:40px;" class="rounded-pill">
           </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
@@ -9,7 +9,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
-                <a class="nav-item nav-link" href="#">Home</a>
+                <a class="nav-item nav-link" href="{{url_for('home')}}">Home</a>
                 <a class="nav-item nav-link" href="#">About</a>
                 <a class="nav-item nav-link" href="#">New Post</a>
                 <a class="nav-item nav-link" href="#">Account</a>
