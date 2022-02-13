@@ -21,7 +21,7 @@ def login():
         user = User.query.filter_by(email = form.email.data).first()
         if user and check_password_hash(user.password, form.password.data):
             login_user(user)
-            flash("{user.username} logged in!", 'success')
+            flash(f"{user.username} logged in!", 'success')
             return redirect(url_for('home'))
     return render_template('login.html', form=form)
 

@@ -1,5 +1,9 @@
-from app import db 
+from app import db, login_manger
 from flask_login import UserMixin
+
+@login_manger.user_loader
+def user_loader(user_id):
+    return User.query.get(user_id)
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
