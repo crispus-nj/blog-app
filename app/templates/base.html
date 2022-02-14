@@ -18,9 +18,10 @@
 
 <body>
     {% include '/utilities/navbar.html'%}
-    <div class="container-fluid mt-2 homepage">
-        <div class="row">
-            <div class="col-md-4">
+    <div class="container-fluid homepage">
+        <div class="row mt-5">
+           
+                  <p style="text-align: center; margin-top:1rem">
                     {% with messages = get_flashed_messages(with_categories=true) %}
                     {% if messages %}
                         {% for category , message in messages%}
@@ -30,7 +31,8 @@
                         {% endfor %}
                     {% endif%}
                     {%endwith%}
-            </div>
+                  </p>  
+            
         </div>
          <div class="row">
             {% block content %}
