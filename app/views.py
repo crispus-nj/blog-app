@@ -80,7 +80,7 @@ def create_post():
         return redirect(url_for('home'))
     return render_template('create_post.html', form=form)
 
-@app.route('/post/<post_id>', methods=['POST', 'GET'])
+@app.route('/post/<post_id>/update', methods=['POST', 'GET'])
 @login_required
 def update_post(post_id):
     form = UpdatePostForm()
@@ -94,3 +94,12 @@ def update_post(post_id):
         form.content.data = post.quote 
     
     return render_template('update_post.html', form=form, post_id = post)
+
+@app.route('/post/<post_id>/delete', methods=['GET'])
+@login_required
+def delete_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    db.session.delete(post)
+    db.session.commit()
+    flash('Quote Delete successfully', 'success')
+    return redirect(url_for('home'))
