@@ -34,6 +34,6 @@ class UpdatePostForm(FlaskForm):
     content = TextAreaField('Update Your Quote')
     submit = SubmitField('Update Quote')
 
-class SuscibeForm(FlaskForm):
+class SuscribeForm(FlaskForm):
     content = EmailField('Email', validators=[DataRequired(), Email()])
     submit = SubmitField('Subscribe')
