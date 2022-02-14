@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
 {% for post in posts.items %}
-<div class="col-md-5" style="margin: auto;">
+<div class="col-md-6"  style="margin: auto;">
+    <h1 class="text-center text-card">User Related Quotes</h1>
     {% if current_user == post.author %}
-    <div class="card shadow">
+    <div class="card shadow card-items">
         <div class="card-body">
-            <h5 class="card-title">{{post.author.username}}</h5>
+            <h5 class="card-title text-center text-warning">{{post.author.username}}</h5>
 
-            <p class="card-text">{{post.quote}}</p>
+            <p class="card-text"><span class="speech-marks">"</span>{{post.quote}}"</p>
             <div class="button-quote">
                 <div class="btn-edit">
                     <form action="{{url_for('update_post', post_id=post.id)}}" method="POST">
@@ -46,20 +47,16 @@
     </div>
 
     {% else %}
-    <div class="card shadow">
+    <div class="card shadow card-items">
         <div class="card-body">
-            <h5 class="card-title">{{post.author.username}}</h5>
-            <p class="card-text">{{post.quote}}</p>
+            <h5 class="card-title text-center text-warning">{{post.author.username}}</h5>
+            <p class="card-text">"{{post.quote}}"</p>
         </div>
     </div>
     {% endif %}
-
-    
-
-
-
-{% endfor %}
-{% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current = 2) %}
+{% endfor %} <br>
+<p style="text-align: center;">
+    {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current = 2) %}
     {% if page_num %}
       {% if posts.page == page_num %}
           <a class="btn btn-info mb-4" href="{{url_for('home', page = page_num )}}">{{ page_num }}</a>
@@ -71,6 +68,34 @@
       ...
     {% endif %}
   {% endfor %}
+</p>
+</div>
+
+<div class="container">
+    <div class="row">
+        <h1 class="text-center text-card" style="margin-top: 0.3rem;">Most Popular Quotes</h1>
+            {% for most in posts_data%}
+            {% if loop.index < 7 %}
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title text-center text-warning">{{most.author}}</h5>
+                      <p class="card-text card-paragraph">"{{most.quote}}"</p>
+                    </div>
+                  </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <form action="" method="POST">
+                
+            </form>
+        </div>
+    </div>
 </div>
 
 {% endblock %}

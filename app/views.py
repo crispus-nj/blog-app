@@ -17,11 +17,9 @@ def home():
     db.create_all()
     post_page = request.args.get('page', 1, type=int)
     posts = Post.query.order_by(Post.date_time.desc()).paginate(page=post_page, per_page=1)
-    # for post in posts:
-    #     print(post.quote)
-    #     print(current_user.username)
-    #     print(type(post))
-    return render_template("index.html", posts = posts)
+    posts_data = requests.get('http://quotes.stormconsultancy.co.uk/quotes.json')
+    posts_data = posts_data.json()
+    return render_template("index.html", posts = posts, posts_data=posts_data)
 
 ###########################
 ###### USERS ROUTES #########
