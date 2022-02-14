@@ -1,10 +1,11 @@
 from flask import redirect, url_for, flash, render_template, request
 from werkzeug.security import generate_password_hash, check_password_hash
-from app import app , db
-from app.forms import LoginForm, RegisterForm
-from app.models import User
-from flask_login import login_user, login_required, logout_user, current_user
 import requests
+from app import app , db
+from app.forms import LoginForm, RegisterForm, PostQuoteForm
+from app.models import User, Post
+from flask_login import login_user, login_required, logout_user, current_user
+
 
 @app.route('/')
 def home():
@@ -55,3 +56,16 @@ def popular_posts():
     posts = requests.get('http://quotes.stormconsultancy.co.uk/quotes.json')
     
     return render_template('most_popular.html', posts=posts)
+
+@app.route('/create-post', methods=['POST', 'GET'])
+@login_required
+def create_post():
+    form = PostQuoteForm()
+    if form.validate_on_submit():
+        post = Post(quote = form.content.data, author=current_user)
+        db.session.add(post)
+        db.session.commit()
+        flash('New Quote created', 'success')
+        return redirect(url_for('home'))
+        # Java programming is used for mobile application. sweet for trail if you have the sike of a bee!
+    return render_template('create_post.html', form=form)
