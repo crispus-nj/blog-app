@@ -1,18 +1,31 @@
 from flask import redirect, url_for, flash, render_template, request
 from werkzeug.security import generate_password_hash, check_password_hash
 import requests
-from app import app , db
+from app import app , db, mail
 from app.forms import LoginForm, RegisterForm, PostQuoteForm, UpdatePostForm, SuscribeForm
 from app.models import User, Post, Comment
 from flask_login import login_user, login_required, logout_user, current_user
+from flask_mail import Message
 
+###########################
+######  UTILITY FUNCTIONS #########
+###########################
+def send_mail(email):
+    msg = Message('Crispus Blog Mail Subscription', sender='reactnode7@gmail.com', recipients=[email])
+    msg.body = f'''You have successfully subscribed to our newsletter. We will notify when new quotes are posted.
 
+Thank You!
+
+To unsubscribe login the application and click unsubscribe.
+
+'''
+    mail.send(msg)
 
 
 ###########################
 ###### MAIN ROUTES #########
 ###########################
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def home():
     db.create_all()
     form = SuscribeForm()
@@ -20,6 +33,12 @@ def home():
     posts = Post.query.order_by(Post.date_time.desc()).paginate(page=post_page, per_page=1)
     posts_data = requests.get('http://quotes.stormconsultancy.co.uk/quotes.json')
     posts_data = posts_data.json()
+
+    if form.validate_on_submit():
+        email = form.content.data
+        send_mail(email)
+        flash('Mail Sent successfully!', 'success')
+        return redirect(url_for('home'))
     return render_template("index.html", posts = posts, posts_data=posts_data, form=form)
 
 ###########################
