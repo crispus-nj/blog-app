@@ -2,7 +2,7 @@ body {
     background-color:hsl(210, 36%, 96%);
 }
 .card-items {
-    margin-top: 6rem;
+    margin-top: 5rem;
     border-radius: 20px;
 }
 .card-text {
@@ -19,4 +19,8 @@ body {
 .text-card {
     letter-spacing: 0.25rem;
     margin-top: 5rem;
+}
+.form {
+    display: block;
+    align-items: center;
 }

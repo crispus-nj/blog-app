@@ -2,7 +2,7 @@ from flask import redirect, url_for, flash, render_template, request
 from werkzeug.security import generate_password_hash, check_password_hash
 import requests
 from app import app , db
-from app.forms import LoginForm, RegisterForm, PostQuoteForm, UpdatePostForm, SuscribeForm, Comment
+from app.forms import LoginForm, RegisterForm, PostQuoteForm, UpdatePostForm, SuscribeForm
 from app.models import User, Post, Comment
 from flask_login import login_user, login_required, logout_user, current_user
 
