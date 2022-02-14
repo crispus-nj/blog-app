@@ -1,9 +1,10 @@
-from flask import redirect, url_for, flash, render_template
+from flask import redirect, url_for, flash, render_template, request
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import app , db
 from app.forms import LoginForm, RegisterForm
 from app.models import User
 from flask_login import login_user, login_required, logout_user, current_user
+import requests
 
 @app.route('/')
 def home():
@@ -22,7 +23,8 @@ def login():
         if user and check_password_hash(user.password, form.password.data):
             login_user(user)
             flash(f"{user.username} logged in!", 'success')
-            return redirect(url_for('home'))
+            nex_page = request.args.get('next')
+            return redirect(nex_page) if nex_page else redirect(url_for('home'))
     return render_template('login.html', form=form)
 
 @app.route('/register', methods=['POST', 'GET'])
@@ -43,4 +45,13 @@ def register():
 def logout():
     logout_user()
     return redirect(url_for('home'))
+
+
+###########################
+######POSTS ROUTES#########
+###########################
+@app.route('/most-popular')
+def popular_posts():
+    posts = requests.get('http://quotes.stormconsultancy.co.uk/quotes.json')
     
+    return render_template('most_popular.html', posts=posts)

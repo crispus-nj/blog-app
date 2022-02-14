@@ -1,20 +1,23 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark ">
     <div class="container">
+
         <a class="navbar-brand" href="{{url_for('home')}}">
             <img src="{{url_for('static', filename='images/default.png')}}" alt="Logo" style="width:40px;" class="rounded-pill">
           </a>
+
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
             aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
                 <a class="nav-item nav-link" href="{{url_for('home')}}">Home</a>
                 <a class="nav-item nav-link" href="#">New Post</a>
-                <a class="nav-item nav-link" href="#">Most Popular</a>
+                <a class="nav-item nav-link" href="{{url_for('popular_posts')}}">Most Popular</a>
                 <a class="nav-item nav-link" href="#">About</a>
             </div>
-            <!-- Navbar Right Side -->
+
             <div class="navbar-nav ms-auto">
                 {% if current_user.is_authenticated %}
                 <a class="nav-item nav-link" href="#">New Post</a>
@@ -24,7 +27,6 @@
                 <a class="nav-item nav-link" href="{{url_for('login')}}">Login</a>
                 <a class="nav-item nav-link" href="{{url_for('register')}}">Register</a>
                 {% endif %}
-
             </div>
         </div>
     </div>
