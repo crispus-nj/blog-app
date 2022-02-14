@@ -2,18 +2,28 @@ from flask import redirect, url_for, flash, render_template, request
 from werkzeug.security import generate_password_hash, check_password_hash
 import requests
 from app import app , db
-from app.forms import LoginForm, RegisterForm, PostQuoteForm
+from app.forms import LoginForm, RegisterForm, PostQuoteForm, UpdatePostForm
 from app.models import User, Post
 from flask_login import login_user, login_required, logout_user, current_user
 
 
+
+
+###########################
+###### MAIN ROUTES #########
+###########################
 @app.route('/')
 def home():
     db.create_all()
-    return render_template("index.html")
+    posts = Post.query.all()
+    # for post in posts:
+    #     print(post.quote)
+    #     print(current_user.username)
+    #     print(type(post))
+    return render_template("index.html", posts = posts)
 
 ###########################
-######USERS ROUTES#########
+###### USERS ROUTES #########
 ###########################
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -49,11 +59,12 @@ def logout():
 
 
 ###########################
-######POSTS ROUTES#########
+###### POSTS ROUTES #########
 ###########################
 @app.route('/most-popular')
 def popular_posts():
     posts = requests.get('http://quotes.stormconsultancy.co.uk/quotes.json')
+    posts = posts.json()
     
     return render_template('most_popular.html', posts=posts)
 
@@ -67,5 +78,19 @@ def create_post():
         db.session.commit()
         flash('New Quote created', 'success')
         return redirect(url_for('home'))
-        # Java programming is used for mobile application. sweet for trail if you have the sike of a bee!
     return render_template('create_post.html', form=form)
+
+@app.route('/post/<post_id>', methods=['POST', 'GET'])
+@login_required
+def update_post(post_id):
+    form = UpdatePostForm()
+    post = Post.query.get(post_id)
+    if form.validate_on_submit():
+        post.quote = form.content.data
+        db.session.commit()
+        flash('Quote updated successfull', 'success')
+        return redirect(url_for('home'))
+    if request.method == 'POST':
+        form.content.data = post.quote 
+    
+    return render_template('update_post.html', form=form, post_id = post)

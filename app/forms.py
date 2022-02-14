@@ -29,3 +29,7 @@ class RegisterForm(FlaskForm):
 class PostQuoteForm(FlaskForm):
     content = TextAreaField('Write a quote')
     submit = SubmitField('Post Quote')
+
+class UpdatePostForm(FlaskForm):
+    content = TextAreaField('Update Your Quote')
+    submit = SubmitField('Update Quote')

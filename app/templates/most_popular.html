@@ -2,6 +2,6 @@
 {% block title %} Most Popular Posts{% endblock %}
 {% block content %}
 {% for post in posts %}
-{{post}}
+{{post.author}}<br>
 {% endfor %}
 {% endblock %}
