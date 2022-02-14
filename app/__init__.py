@@ -15,4 +15,5 @@ Migrate(app, db)
 login_manger = LoginManager(app)
 login_manger.login_view = 'login'
 login_manger.login_message_category = 'info'
+
 from app import views

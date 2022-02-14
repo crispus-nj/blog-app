@@ -33,3 +33,7 @@ class PostQuoteForm(FlaskForm):
 class UpdatePostForm(FlaskForm):
     content = TextAreaField('Update Your Quote')
     submit = SubmitField('Update Quote')
+
+class CommentForm(FlaskForm):
+    content = TextAreaField('Comment')
+    submit = SubmitField('send')

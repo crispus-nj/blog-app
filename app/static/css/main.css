@@ -1,3 +1,6 @@
+body {
+    background-color:hsl(210, 36%, 96%);
+}
 .button-quote {
     display: flex;
     justify-content: space-around;

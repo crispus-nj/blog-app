@@ -2,8 +2,8 @@ from flask import redirect, url_for, flash, render_template, request
 from werkzeug.security import generate_password_hash, check_password_hash
 import requests
 from app import app , db
-from app.forms import LoginForm, RegisterForm, PostQuoteForm, UpdatePostForm
-from app.models import User, Post
+from app.forms import LoginForm, RegisterForm, PostQuoteForm, UpdatePostForm, CommentForm
+from app.models import User, Post, Comment
 from flask_login import login_user, login_required, logout_user, current_user
 
 
@@ -15,7 +15,8 @@ from flask_login import login_user, login_required, logout_user, current_user
 @app.route('/')
 def home():
     db.create_all()
-    posts = Post.query.all()
+    post_page = request.args.get('page', 1, type=int)
+    posts = Post.query.order_by(Post.date_time.desc()).paginate(page=post_page, per_page=1)
     # for post in posts:
     #     print(post.quote)
     #     print(current_user.username)
@@ -56,6 +57,18 @@ def register():
 def logout():
     logout_user()
     return redirect(url_for('home'))
+
+@app.route('/<post_id>/comment', methods=['POST', 'GET'])
+def comment(post_id):
+    posts = Post.query.get_or_404(post_id)
+    comment_post = posts.id
+    form = CommentForm()
+    if form.validate_on_submit():
+        comment = Comment(comment = form.content.data, comment_post=posts.id )
+        db.session.add(comment)
+        db.session.commit()
+        return redirect(url_for('home'))
+    return render_template('index.html', form=form)
 
 
 ###########################
