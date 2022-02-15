@@ -24,3 +24,6 @@ body {
     display: block;
     align-items: center;
 }
+#form-comment{
+    padding: 20px;
+}

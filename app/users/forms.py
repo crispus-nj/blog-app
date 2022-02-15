@@ -1,7 +1,6 @@
-from xml.dom import ValidationErr
 from flask_wtf import FlaskForm
-from wtforms.validators import DataRequired, Email, EqualTo, Length
-from wtforms import StringField, EmailField, PasswordField, SubmitField, TextAreaField
+from wtforms import PasswordField, StringField, EmailField, SubmitField
+from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
 from app.models import User
 
 class LoginForm(FlaskForm):
@@ -19,21 +18,9 @@ class RegisterForm(FlaskForm):
     def validate_email(self, email):
         user = User.query.filter_by(email = email.data).first()
         if user:
-            raise ValidationErr('Email already taken!')
+            raise ValidationError('Email already taken!')
     
     def validate_username(self, username):
         user = User.query.filter_by(username = username.data).first()
         if user:
-            raise ValidationErr('Username already taken!')
-
-class PostQuoteForm(FlaskForm):
-    content = TextAreaField('Write a quote')
-    submit = SubmitField('Post Quote')
-
-class UpdatePostForm(FlaskForm):
-    content = TextAreaField('Update Your Quote')
-    submit = SubmitField('Update Quote')
-
-class SuscribeForm(FlaskForm):
-    content = EmailField('Email', validators=[DataRequired(), Email()])
-    submit = SubmitField('Subscribe')
+            raise ValidationError('Username already taken!')

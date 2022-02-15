@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <form action="" method="POST" class="needs-validation"
+                id="form-comment" novalidate>
+                {{form.hidden_tag()}}
+                <div class="form-group">
+                    {{form.comment.label}}
+                    {% if form.comment.errors %}
+                    {{form.comment(class="form-control form-control-md is-invalid")}}
+                    <div class="invalid-feedback">
+                        {% for error in form.comment.errors%}
+                        <span>{{ error }}</span>
+                        {% endfor%}
+                    </div>
+                    {% else %}
+                    {{form.comment(class="form-control form-control-md")}}
+                    {% endif %}
+                </div>
+                <div class="form-group button">
+                    {{form.submit(class="btn btn-primary mt-2 ")}}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock%}
