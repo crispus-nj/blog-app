@@ -2,7 +2,7 @@ from flask import Blueprint, redirect, render_template, url_for, request, flash
 import requests
 from flask_login import login_required, current_user
 from app.posts.forms import PostQuoteForm, UpdatePostForm
-from app.models import Post
+from app.models import Post, Comment
 from app import db
 
 posts = Blueprint('posts', __name__)
@@ -64,8 +64,26 @@ def delete_post(post_id):
 def all_posts():
     post_page = request.args.get('page', 1, type=int)
     posts = Post.query.order_by(Post.date_time.desc()).paginate(page=post_page, per_page=8)
-    return render_template('view_posts.html', posts=posts)
+    comments = Comment.query.all()
+    return render_template('view_posts.html', posts=posts, comments=comments)
 
+@posts.route("/create-comment/<post_id>", methods=['POST', 'GET'])
+@login_required
+def commets(post_id):
+    comment = request.form.get('text')
+    if not comment:
+        flash('Comment can not be empty!', 'danger')
+    else:
+        post = Post.query.filter_by(id=post_id)
+        if post:
+            comments = Comment(comment=comment, user_id=current_user.id, posts_id=post_id )
+            db.session.add(comments)
+            db.session.commit()
+        else :
+            flash("Post Does not exists", 'danger')
+
+    return redirect(url_for('posts.all_posts'))
+    
 
 # @app.route('/posts/<post_id>/comment', methods=['GET', 'POST'])
 # def comments(post_id):

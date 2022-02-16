@@ -7,14 +7,12 @@ from flask_mail import Mail
 
 
 db = SQLAlchemy()
-Migrate(db)
+migrate  = Migrate()
 
 # login configurations
 login_manger = LoginManager()
-# login_manger.init_app()
-login_manger.login_view = 'login'
+login_manger.login_view = 'users.login'
 login_manger.login_message_category = 'info'
-
 
 mail = Mail()
 
@@ -27,6 +25,7 @@ def create_app(config_class=DevConfig):
     db.init_app(app)
     login_manger.init_app(app)
     mail.init_app(app)
+    migrate.init_app(app, db)
 
     from app.users.views import users
     from app.main.views import main
