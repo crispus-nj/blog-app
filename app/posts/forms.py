@@ -9,8 +9,3 @@ class PostQuoteForm(FlaskForm):
 class UpdatePostForm(FlaskForm):
     content = TextAreaField('Update Your Quote',validators=[DataRequired()])
     submit = SubmitField('Update Quote')
-
-
-class CommentForm(FlaskForm):
-    comment = TextAreaField('Comment', validators=[DataRequired()])
-    submit = SubmitField('Send')
