@@ -60,6 +60,12 @@ def delete_post(post_id):
     return redirect(url_for('main.home'))
 
 
+@posts.route('/posts/users')
+def all_posts():
+    post_page = request.args.get('page', 1, type=int)
+    posts = Post.query.order_by(Post.date_time.desc()).paginate(page=post_page, per_page=8)
+    return render_template('view_posts.html', posts=posts)
+
 
 # @app.route('/posts/<post_id>/comment', methods=['GET', 'POST'])
 # def comments(post_id):
