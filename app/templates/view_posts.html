@@ -2,6 +2,7 @@
 {% block content %}
 <div class="container">
     <div class="row">
+        <h1 class="text-center text-card" style="margin: 0;">All Quotes</h1>
         {% for post in posts.items %}
         <div class="col-md-6">
             <div class="card shadow card-items">
@@ -9,6 +10,7 @@
                     <h5 class="card-title text-center text-warning">{{post.author.username}}</h5>
                     <p class="card-text">"{{post.quote}}"</p>
                 </div>
+                <p class="text-muted date">{{post.date_time.strftime('%d-%m-%Y') }}</p>
             </div>
         </div>
         {% endfor %}

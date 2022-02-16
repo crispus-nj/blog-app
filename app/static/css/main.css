@@ -27,3 +27,7 @@ body {
 #form-comment{
     padding: 20px;
 }
+.date {
+    text-align: right;
+    padding-right: 2rem;
+}
