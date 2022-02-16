@@ -65,7 +65,7 @@ def all_posts():
     post_page = request.args.get('page', 1, type=int)
     posts = Post.query.order_by(Post.date_time.desc()).paginate(page=post_page, per_page=8)
     comment_pag = request.args.get('page', 1, type=int)
-    comments = Comment.query.order_by(Comment.timestamp.desc()).paginate(page=comment_pag)
+    comments = Comment.query.order_by(Comment.timestamp.desc()).paginate(page=comment_pag, per_page=16)
     return render_template('view_posts.html', posts=posts, comments=comments)
 
 @posts.route("/create-comment/<post_id>", methods=['POST', 'GET'])

@@ -1,7 +1,6 @@
 from app import db, login_manger
 from flask_login import UserMixin
 from datetime import datetime
-# from sqlalchemy.orm import relationship
 
 @login_manger.user_loader
 def user_loader(user_id):
@@ -32,6 +31,3 @@ class Comment(db.Model):
     timestamp = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     posts_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
-
-    # user = relationship('Post', backref='comment_post', lazy=True)
-    # user_id =  db.Column(db.Integer, db.ForeignKey('users.id'))
